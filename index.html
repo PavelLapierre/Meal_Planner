@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Meal Planner: busca recetas por ingrediente y organiza tu menú semanal." />
+  <title>Meal Planner — Planificador semanal de comidas</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+  <!-- defer: descarga en paralelo y se ejecuta tras parsear el DOM -->
+  <script src="js/api.js" defer></script>
+  <script src="js/planner.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="cabecera">
+    <div class="cabecera-contenido">
+      <h1>🍽️ Meal Planner</h1>
+      <p>Planificador semanal de comidas</p>
+    </div>
+  </header>
+
+  <main class="principal">
+    <!-- RF01: introducir un ingrediente -->
+    <section class="panel" aria-labelledby="titulo-busqueda">
+      <h2 id="titulo-busqueda">1. Buscar recetas por ingrediente</h2>
+      <!-- EF-11: callback de evento submit -->
+      <form id="formulario-busqueda" class="formulario-busqueda" novalidate>
+        <div class="campo">
+          <label for="ingrediente">Ingrediente</label>
+          <input
+            type="text"
+            id="ingrediente"
+            name="ingrediente"
+            placeholder="Ej: chicken, tomato, rice…"
+            autocomplete="off"
+            required
+          />
+        </div>
+        <button type="submit" class="boton" id="btn-buscar">Buscar recetas</button>
+      </form>
+    </section>
+
+    <!-- RF03: mostrar las recetas encontradas + estados de UI -->
+    <section class="panel" aria-labelledby="titulo-resultados">
+      <h2 id="titulo-resultados">2. Resultados</h2>
+      <p id="mensaje-estado" class="mensaje mensaje-info" role="status" aria-live="polite">
+        Ingresa un ingrediente y pulsa «Buscar recetas».
+      </p>
+      <div id="rejilla-resultados" class="rejilla hidden" aria-live="polite"></div>
+    </section>
+
+    <!-- RF04: seleccionar una receta y ver su información básica -->
+    <section id="panel-detalle" class="panel hidden" aria-labelledby="titulo-detalle">
+      <div class="detalle-cabecera">
+        <h2 id="titulo-detalle">Detalle de la receta</h2>
+        <button type="button" id="btn-cerrar-detalle" class="boton-secundario">Cerrar ✕</button>
+      </div>
+      <div id="detalle-receta"></div>
+    </section>
+
+    <!-- RF06: menú semanal -->
+    <section class="panel" aria-labelledby="titulo-plan">
+      <h2 id="titulo-plan">3. Menú semanal</h2>
+      <p class="nota">
+        Cada día puede contener varias recetas, pero no se permite repetir la misma receta dentro de un mismo día.
+      </p>
+      <p id="mensaje-plan" class="mensaje hidden" role="status" aria-live="polite"></p>
+      <div id="calendario" class="calendario"></div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>
+      Meal Planner · Datos de recetas provistos por
+      <a href="https://www.themealdb.com" target="_blank" rel="noopener noreferrer">TheMealDB</a>
+    </p>
+  </footer>
+</body>
+</html>

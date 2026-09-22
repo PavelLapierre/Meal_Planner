@@ -1,0 +1,514 @@
+/* =========================================================
+   Meal Planner — estilos (CSS3)
+   Tarjetas, calendario semanal y estados de UI
+   ========================================================= */
+
+/* ---------- Variables y base ---------- */
+:root {
+  --color-fondo: #f6f4ef;
+  --color-tarjeta: #ffffff;
+  --color-primario: #2f7d5d;
+  --color-primario-oscuro: #1f5c43;
+  --color-texto: #2b2b2b;
+  --color-texto-suave: #6b6b6b;
+  --color-borde: #e3ded4;
+  --color-error: #c0392b;
+  --color-error-fondo: #fdecea;
+  --color-exito: #2f7d5d;
+  --color-exito-fondo: #e8f5ee;
+  --color-aviso: #b7791f;
+  --color-aviso-fondo: #fdf6e3;
+  --sombra: 0 4px 14px rgba(0, 0, 0, 0.08);
+  --radio: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.5;
+}
+
+img {
+  max-width: 100%;
+}
+
+/* Utilidad para alternar visibilidad desde JavaScript */
+.hidden {
+  display: none !important;
+}
+
+/* ---------- Cabecera ---------- */
+.cabecera {
+  background: linear-gradient(135deg, #2f7d5d, #1f5c43);
+  color: #ffffff;
+  padding: 1.6rem 1rem;
+  text-align: center;
+}
+
+.cabecera h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  letter-spacing: 0.5px;
+}
+
+.cabecera-contenido p {
+  margin: 0.3rem 0 0;
+  opacity: 0.9;
+}
+
+/* ---------- Paneles / secciones ---------- */
+.principal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.panel {
+  background: var(--color-tarjeta);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.25rem 1.4rem 1.5rem;
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+  color: var(--color-primario-oscuro);
+}
+
+.nota {
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* ---------- Formularios ---------- */
+.formulario-busqueda {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1 1 260px;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.campo input,
+.campo select {
+  padding: 0.65rem 0.8rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus {
+  outline: 3px solid rgba(47, 125, 93, 0.35);
+  outline-offset: 1px;
+  border-color: var(--color-primario);
+}
+
+.boton {
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: var(--color-primario);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.boton:hover {
+  background: var(--color-primario-oscuro);
+}
+
+.boton:active {
+  transform: translateY(1px);
+}
+
+.boton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.boton-secundario {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  background: transparent;
+  border: 1px solid var(--color-primario);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.boton-secundario:hover {
+  background: var(--color-exito-fondo);
+}
+
+/* ---------- Estados de UI ---------- */
+.mensaje {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  margin: 0.5rem 0;
+}
+
+.mensaje-info {
+  background: #eef3f7;
+  color: #3d566e;
+}
+
+.mensaje-error {
+  background: var(--color-error-fondo);
+  color: var(--color-error);
+  font-weight: 500;
+}
+
+.mensaje-exito {
+  background: var(--color-exito-fondo);
+  color: var(--color-primario-oscuro);
+  font-weight: 500;
+}
+
+.mensaje-aviso {
+  background: var(--color-aviso-fondo);
+  color: var(--color-aviso);
+  font-weight: 500;
+}
+
+/* Estado cargando: spinner generado con ::before */
+.mensaje-cargando {
+  background: #eef3f7;
+  color: #3d566e;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mensaje-cargando::before {
+  content: "";
+  width: 1em;
+  height: 1em;
+  border: 3px solid var(--color-primario);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Rejilla de resultados / tarjetas ---------- */
+.rejilla {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  margin-top: 1rem;
+}
+
+.tarjeta {
+  background: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tarjeta:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--sombra);
+}
+
+.tarjeta-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background: #eeeeee;
+}
+
+.tarjeta-cuerpo {
+  padding: 0.8rem 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+}
+
+.tarjeta-cuerpo h3 {
+  margin: 0;
+  font-size: 1.02rem;
+}
+
+.tarjeta-boton {
+  margin-top: auto;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primario);
+  background: var(--color-exito-fondo);
+  border: 1px solid var(--color-primario);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.tarjeta-boton:hover {
+  background: var(--color-primario);
+  color: #ffffff;
+}
+
+/* ---------- Detalle de la receta ---------- */
+.detalle-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.detalle-cabecera h2 {
+  margin-top: 0;
+}
+
+.detalle {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.2rem;
+}
+
+.detalle-imagen {
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.detalle-titulo {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.detalle-etiquetas {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0 0 1rem;
+}
+
+.etiqueta {
+  background: var(--color-exito-fondo);
+  color: var(--color-primario-oscuro);
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.detalle h4 {
+  margin: 1rem 0 0.4rem;
+}
+
+.lista-ingredientes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.25rem 0.8rem;
+  padding-left: 1.1rem;
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.detalle-instrucciones {
+  white-space: pre-line;
+  color: #444444;
+  font-size: 0.95rem;
+}
+
+/* Formulario de asignación a un día */
+.asignar {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--color-borde);
+}
+
+.asignar .campo {
+  flex: 0 0 auto;
+  min-width: 210px;
+}
+
+/* ---------- Calendario semanal ---------- */
+.calendario {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .calendario {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .calendario {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1180px) {
+  .calendario {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+.dia {
+  background: #fbfaf7;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  min-height: 140px;
+}
+
+.dia-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.4rem;
+  border-bottom: 2px solid var(--color-primario);
+  padding-bottom: 0.4rem;
+}
+
+.dia-cabecera h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  color: var(--color-primario-oscuro);
+}
+
+.dia-contador {
+  font-size: 0.72rem;
+  color: var(--color-texto-suave);
+}
+
+.dia-vacio {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+  font-style: italic;
+  margin: 0.4rem 0;
+  text-align: center;
+}
+
+.dia-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dia-receta {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 0.3rem 0.5rem;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  padding: 0.4rem;
+}
+
+.dia-receta-imagen {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.dia-receta-nombre {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.boton-eliminar {
+  grid-column: 1 / -1;
+  padding: 0.35rem 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-error);
+  background: var(--color-error-fondo);
+  border: 1px solid rgba(192, 57, 43, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.boton-eliminar:hover {
+  background: var(--color-error);
+  color: #ffffff;
+}
+
+/* ---------- Pie ---------- */
+.pie {
+  text-align: center;
+  padding: 1rem;
+  color: var(--color-texto-suave);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--color-borde);
+  background: #ffffff;
+}
+
+.pie p {
+  margin: 0;
+}
+
+.pie a {
+  color: var(--color-primario);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .detalle {
+    grid-template-columns: 1fr;
+  }
+
+  .detalle-imagen {
+    max-height: 260px;
+  }
+}
