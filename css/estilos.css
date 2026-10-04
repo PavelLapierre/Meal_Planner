@@ -75,7 +75,7 @@ img {
 
 /* ---------- Paneles / secciones ---------- */
 .principal {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 1.5rem 1rem 3rem;
   display: grid;
@@ -383,37 +383,38 @@ img {
 /* ---------- Calendario semanal ---------- */
 .calendario {
   display: grid;
-  gap: 0.9rem;
-  grid-template-columns: 1fr;
+  gap: 1rem;
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  align-items: stretch;
 }
 
-@media (min-width: 640px) {
+@media (max-width: 1200px) {
   .calendario {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
   }
 }
 
-@media (min-width: 900px) {
+@media (max-width: 900px) {
   .calendario {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, minmax(220px, 1fr));
   }
 }
 
-@media (min-width: 1180px) {
+@media (max-width: 600px) {
   .calendario {
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: 1fr;
   }
 }
 
 .dia {
   background: #fbfaf7;
   border: 1px solid var(--color-borde);
-  border-radius: 10px;
-  padding: 0.7rem;
+  border-radius: 12px;
+  padding: 0.85rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  min-height: 140px;
+  gap: 0.8rem;
+  min-height: 210px;
 }
 
 .dia-cabecera {
@@ -455,48 +456,83 @@ img {
 
 .dia-receta {
   display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 0.3rem 0.5rem;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 0.4rem 0.6rem;
   align-items: center;
   background: #ffffff;
   border: 1px solid var(--color-borde);
   border-radius: 8px;
-  padding: 0.4rem;
+  padding: 0.5rem;
 }
 
 .dia-receta-imagen {
-  width: 42px;
-  height: 42px;
-  border-radius: 6px;
+  width: 58px;
+  height: 58px;
+  border-radius: 7px;
   object-fit: cover;
 }
 
+.dia-receta-contenido {
+  min-width: 0;
+}
+
 .dia-receta-nombre {
-  font-size: 0.85rem;
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-texto);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  min-height: 3.2em;
+}
+
+.dia-receta-acciones {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.boton-detalle-plan,
+.boton-eliminar {
+  flex: 1;
+  padding: 0.42rem 0.5rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  line-height: 1.25;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  border-radius: 6px;
+  cursor: pointer;
+  line-height: 1.2;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.boton-detalle-plan {
+  color: var(--color-primario-oscuro);
+  background: var(--color-exito-fondo);
+  border: 1px solid rgba(47, 125, 93, 0.35);
+}
+
+.boton-detalle-plan:hover {
+  background: var(--color-primario);
+  color: #ffffff;
 }
 
 .boton-eliminar {
-  grid-column: 1 / -1;
-  padding: 0.35rem 0.6rem;
-  font-size: 0.78rem;
-  font-weight: 600;
   color: var(--color-error);
   background: var(--color-error-fondo);
   border: 1px solid rgba(192, 57, 43, 0.35);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.15s ease;
 }
 
 .boton-eliminar:hover {
   background: var(--color-error);
   color: #ffffff;
+}
+
+.boton-detalle-plan:active,
+.boton-eliminar:active {
+  transform: translateY(1px);
 }
 
 /* ---------- Pie ---------- */

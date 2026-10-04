@@ -43,7 +43,7 @@ function mostrarResultados(recetas, ingrediente) {
   mostrarMensaje(
     mensajeEstado,
     `Se encontraron ${recetas.length} recetas con «${ingrediente}».`,
-    "info"
+    "info",
   );
   renderTarjetas(recetas);
   rejillaResultados.classList.remove("hidden");
@@ -53,7 +53,7 @@ function mostrarSinResultados(ingrediente) {
   mostrarMensaje(
     mensajeEstado,
     `No se encontraron recetas con «${ingrediente}». Prueba con otro ingrediente.`,
-    "info"
+    "info",
   );
   rejillaResultados.classList.add("hidden");
 }
@@ -63,7 +63,7 @@ function mostrarErrorBusqueda() {
   mostrarMensaje(
     mensajeEstado,
     "No se pudieron cargar las recetas. Revisa tu conexión e inténtalo de nuevo.",
-    "error"
+    "error",
   );
   rejillaResultados.classList.add("hidden");
 }
@@ -164,7 +164,7 @@ function renderizarDetalle(receta) {
   etiquetas.append(
     crearEtiqueta(`Categoría: ${receta.categoria}`),
     crearEtiqueta(`Origen: ${receta.area}`),
-    crearEtiqueta(`ID: ${receta.id}`)
+    crearEtiqueta(`ID: ${receta.id}`),
   );
 
   const hIngredientes = document.createElement("h4");
@@ -203,7 +203,7 @@ function renderizarDetalle(receta) {
     hInstrucciones,
     parrafo,
     formulario,
-    aviso
+    aviso,
   );
   contenedor.append(imagen, info);
   detalleReceta.appendChild(contenedor);
@@ -266,7 +266,7 @@ function alAsignarReceta(evento) {
     mostrarMensaje(
       aviso,
       `✔ «${recetaSeleccionada.nombre}» se agregó al menú del ${dia}.`,
-      "exito"
+      "exito",
     );
   } else {
     // Regla: no repetir la misma receta en el mismo día
@@ -284,7 +284,7 @@ formularioBusqueda.addEventListener("submit", (evento) => {
     mostrarMensaje(
       mensajeEstado,
       "Escribe un ingrediente, por ejemplo: chicken.",
-      "aviso"
+      "aviso",
     );
     inputIngrediente.focus();
     return;
@@ -318,13 +318,19 @@ function ocultarDetalle() {
   recetaSeleccionada = null;
 }
 
-// EF-11: delegación de eventos para eliminar recetas (RF07)
+// EF-11: delegación de eventos para acciones del menú semanal
 calendario.addEventListener("click", (evento) => {
-  const boton = evento.target.closest(".boton-eliminar");
-  if (!boton) return;
+  const botonDetalle = evento.target.closest(".boton-detalle-plan");
+  if (botonDetalle) {
+    verDetalle(botonDetalle.dataset.id);
+    return;
+  }
 
-  const dia = boton.dataset.dia;
-  const id = boton.dataset.id;
+  const botonEliminar = evento.target.closest(".boton-eliminar");
+  if (!botonEliminar) return;
+
+  const dia = botonEliminar.dataset.dia;
+  const id = botonEliminar.dataset.id;
   const receta = obtenerPlanSemanal()[dia].find((r) => r.id === id);
 
   if (eliminarRecetaDelDia(dia, id)) {
@@ -335,7 +341,7 @@ calendario.addEventListener("click", (evento) => {
         receta
           ? `Se eliminó «${receta.nombre}» del ${dia}.`
           : `Se eliminó la receta del ${dia}.`,
-        "info"
+        "info",
       );
     }
   }

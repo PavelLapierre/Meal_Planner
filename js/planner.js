@@ -103,7 +103,7 @@ function eliminarRecetaDelDia(dia, idReceta) {
   if (!DIAS_SEMANA.includes(dia)) return false;
 
   planSemanal[dia] = planSemanal[dia].filter(
-    (receta) => receta.id !== idReceta
+    (receta) => receta.id !== idReceta,
   );
 
   guardarPlanEnStorage();
@@ -111,10 +111,7 @@ function eliminarRecetaDelDia(dia, idReceta) {
 }
 
 function contarRecetasDelPlan() {
-  return DIAS_SEMANA.reduce(
-    (total, dia) => total + planSemanal[dia].length,
-    0
-  );
+  return DIAS_SEMANA.reduce((total, dia) => total + planSemanal[dia].length, 0);
 }
 
 function capitalizar(texto) {
@@ -186,22 +183,40 @@ function crearItemReceta(dia, receta) {
   imagen.alt = receta.nombre;
   imagen.loading = "lazy";
 
+  const contenido = document.createElement("div");
+  contenido.className = "dia-receta-contenido";
+
   const nombre = document.createElement("span");
   nombre.className = "dia-receta-nombre";
   nombre.textContent = receta.nombre;
 
-  // RF07: botón de eliminar con datos para el delegado de eventos
-  const boton = document.createElement("button");
-  boton.type = "button";
-  boton.className = "boton-eliminar";
-  boton.textContent = "Eliminar";
-  boton.dataset.dia = dia;
-  boton.dataset.id = receta.id;
-  boton.setAttribute(
+  const acciones = document.createElement("div");
+  acciones.className = "dia-receta-acciones";
+
+  const botonDetalle = document.createElement("button");
+  botonDetalle.type = "button";
+  botonDetalle.className = "boton-detalle-plan";
+  botonDetalle.textContent = "Ver detalle";
+  botonDetalle.dataset.id = receta.id;
+  botonDetalle.setAttribute(
     "aria-label",
-    `Eliminar ${receta.nombre} del ${dia}`
+    `Ver detalle de ${receta.nombre} del ${dia}`,
   );
 
-  item.append(imagen, nombre, boton);
+  // RF07: botón de eliminar con datos para el delegado de eventos
+  const botonEliminar = document.createElement("button");
+  botonEliminar.type = "button";
+  botonEliminar.className = "boton-eliminar";
+  botonEliminar.textContent = "Eliminar";
+  botonEliminar.dataset.dia = dia;
+  botonEliminar.dataset.id = receta.id;
+  botonEliminar.setAttribute(
+    "aria-label",
+    `Eliminar ${receta.nombre} del ${dia}`,
+  );
+
+  acciones.append(botonDetalle, botonEliminar);
+  contenido.appendChild(nombre);
+  item.append(imagen, contenido, acciones);
   return item;
 }
